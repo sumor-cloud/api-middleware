@@ -37,7 +37,7 @@ please change the following code in your `package.json` file:
 
 ### Basic Usage
 
-1. Add a file named `plus.js` in your project folder `api`
+##### 1. Add a file named `plus.js` in your project folder `api`
 
 ```js
 export default async (context, req, res) => {
@@ -47,7 +47,7 @@ export default async (context, req, res) => {
 }
 ```
 
-[Optional] 2. Add a file named `plus.json` in your project folder `api`
+##### [Optional] 2. Add a file named `plus.json` in your project folder `api`
 
 ```json
 {
@@ -66,7 +66,7 @@ export default async (context, req, res) => {
 }
 ```
 
-3. Add the following code in your `index.js` file
+##### 3. Add the following code in your `index.js` file
 
 ```javascript
 import express from 'express'
@@ -80,8 +80,8 @@ app.listen(3000, () => {
 })
 ```
 
-4. run index.js
+##### 4. run index.js
 
-   ```bash
-   node index.js
-   ```
+```bash
+node index.js
+```
