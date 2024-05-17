@@ -22,11 +22,5 @@
   "coverageReporters": ["text-summary", "html"],
   "collectCoverageFrom": ["src/**/*.{js,jsx}"],
   "testPathIgnorePatterns": ["node_modules", "output", "static", "dist", "tmp"],
-  "coveragePathIgnorePatterns": [
-    "node_modules",
-    "output",
-    "static",
-    "dist",
-    "tmp"
-  ]
+  "coveragePathIgnorePatterns": ["node_modules", "output", "static", "dist", "tmp"]
 }
