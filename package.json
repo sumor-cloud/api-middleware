@@ -40,7 +40,6 @@
   },
   "scripts": {
     "lint": "eslint .",
-    "format": "prettier --write .",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --testMatch='**/test/**/*.test.js'",
     "coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage --testMatch='**/test/**/*.test.js'",
     "push-tag": "git push && git push --tags",
@@ -49,6 +48,6 @@
     "publish-release-minor": "npm version minor && npm run push-tag",
     "publish-release-major": "npm version major && npm run push-tag",
     "prepare": "husky",
-    "check": "eslint --fix . && npm audit fix --force && npm run coverage"
+    "check": "eslint --fix . && prettier --write . && npm audit fix --force && npm run coverage"
   }
 }

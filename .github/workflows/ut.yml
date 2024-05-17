@@ -1,7 +1,7 @@
 name: Test
 on:
   schedule:
-    - cron: '0 * * * *'
+    - cron: "0 * * * *"
 jobs:
   test:
     name: Unit test for latest dependencies
@@ -12,8 +12,8 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20.x'
-          registry-url: 'https://registry.npmjs.org'
+          node-version: "20.x"
+          registry-url: "https://registry.npmjs.org"
       - name: Remove package-lock.json
         run: rm -f package-lock.json
       - name: Install NPM dependencies
