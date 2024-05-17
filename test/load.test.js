@@ -11,7 +11,8 @@ describe('Load', () => {
         parameters: {
           a: {
             name: 'parameter a',
-            type: 'number'
+            type: 'number',
+            length: 3
           },
           b: {
             name: 'parameter b',

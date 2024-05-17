@@ -1,1 +1,2 @@
-export default function (app, options) {}
+import host from './host.js'
+export default host
