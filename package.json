@@ -5,7 +5,7 @@
   "license": "MIT",
   "repository": "sumor-cloud/api-middleware",
   "author": "Sumor Cloud Ltd",
-  "homepage": "https://sumor.cloud",
+  "homepage": "https://sumor.cloud/api-middleware",
   "type": "module",
   "main": "./src/index.js",
   "exports": "./src/index.js",

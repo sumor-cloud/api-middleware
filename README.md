@@ -1,7 +1,7 @@
 # api-middleware
 
 A [Sumor Cloud](https://sumor.cloud) Tool.  
-[More Documentation](https://sumor.cloud)
+[More Documentation](https://sumor.cloud/api-middleware)
 API Middleware is a middleware for Node.JS.
 It can easily expose function to api, and validate parameters
 
