@@ -43,6 +43,7 @@
   },
   "scripts": {
     "lint": "eslint .",
+    "autofix": "eslint --fix . && prettier --write . && npm audit fix --force",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --testMatch='**/test/**/*.test.js'",
     "coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage --testMatch='**/test/**/*.test.js'",
     "push-tag": "git push && git push --tags",
