@@ -1,12 +1,11 @@
 export default apisMeta => {
-  const apiPaths = Object.keys(apisMeta)
-  apiPaths.sort((x, y) => (x > y ? 1 : -1))
+  const apisPath = Object.keys(apisMeta)
+  apisPath.sort((x, y) => (x > y ? 1 : -1))
   return (req, res, next) => {
     const exposeApis = {}
-    for (const path of apiPaths) {
+    for (const path of apisPath) {
       const apiData = apisMeta[path]
-      const route = `/${path.replace(/\./g, '/')}`
-      exposeApis[route] = {
+      exposeApis[apisMeta[path].route] = {
         name: apiData.name,
         desc: apiData.desc,
         parameters: apiData.parameters
