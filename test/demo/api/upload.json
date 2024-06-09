@@ -1,0 +1,8 @@
+{
+  "name": "upload",
+  "parameters": {
+    "file": {
+      "type": "file"
+    }
+  }
+}

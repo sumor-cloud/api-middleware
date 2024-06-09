@@ -85,3 +85,21 @@ app.listen(3000, () => {
 ```bash
 node index.js
 ```
+
+### context
+
+##### data
+
+It includes all parameters passed in the request
+
+file upload will be parsed as below object:
+
+- `name` uploaded file name
+- `size` uploaded file size(bytes)
+- `mime` uploaded file mime type(e.g. image/png)
+- `encoding` uploaded file encoding(e.g. 7bit)
+- `path` uploaded file path
+
+##### exposeApis
+
+It includes all exposed apis
