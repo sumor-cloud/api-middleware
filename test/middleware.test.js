@@ -7,6 +7,7 @@ import createApp from '@sumor/ssl-server'
 import axios from 'axios'
 import https from 'https'
 import fse from 'fs-extra'
+import fileClearUp from '../src/middleware/fileClearUp.js'
 
 const port = 40200
 describe('middleware', () => {
@@ -41,14 +42,39 @@ describe('middleware', () => {
     const app = createApp()
 
     try {
-      app.all('/data', bodyParser([{ name: 'file' }]))
-      app.all('/data', async (req, res) => {
+      app.get('/hello', fileClearUp)
+      app.get('/hello', (req, res) => {
+        res.send('Hello')
+      })
+
+      app.all('/dataFile', bodyParser([{ name: 'file' }]))
+      app.all('/dataFile', async (req, res) => {
         const fileInfo = req.data.file[0]
         fileInfo.content = await fse.readFile(fileInfo.path, 'utf8')
         fileInfo.params = { a: req.data.a, b: req.data.b }
         res.send(fileInfo)
       })
+
+      app.all('/dataClean', bodyParser([{ name: 'file' }]))
+      app.all('/dataClean', async (req, res, next) => {
+        const fileInfo = req.data.file[0]
+        fileInfo.content = await fse.readFile(fileInfo.path, 'utf8')
+        fileInfo.params = { a: req.data.a, b: req.data.b }
+        req.sumorResponse = fileInfo
+        next()
+      })
+      app.all('/dataClean', fileClearUp)
+      app.all('/dataClean', async (req, res) => {
+        res.send(req.sumorResponse)
+      })
       await app.listen(port)
+
+      const response = await axios({
+        method: 'get',
+        url: `https://localhost:${port}/hello?a=1`,
+        httpsAgent: new https.Agent({ rejectUnauthorized: false })
+      })
+      expect(response.data).toEqual('Hello')
 
       // mock multipart/form-data upload file
       const formData = new FormData()
@@ -56,9 +82,9 @@ describe('middleware', () => {
       formData.append('file', file, 'file.txt')
       formData.append('b', 2)
 
-      const response = await axios({
+      const response1 = await axios({
         method: 'post',
-        url: `https://localhost:${port}/data?a=1`,
+        url: `https://localhost:${port}/dataFile?a=1`,
         data: formData,
         headers: {
           'Content-Type': 'multipart/form-data'
@@ -66,9 +92,37 @@ describe('middleware', () => {
         httpsAgent: new https.Agent({ rejectUnauthorized: false })
       })
 
-      expect(response.data.name).toEqual('file.txt')
-      expect(response.data.content).toEqual('OK')
-      expect(response.data.params).toEqual({ a: '1', b: '2' })
+      expect(response1.data.name).toEqual('file.txt')
+      expect(response1.data.content).toEqual('OK')
+      expect(response1.data.params).toEqual({ a: '1', b: '2' })
+      expect(response1.data.path).toBeDefined()
+
+      const existsUploadFile = await fse.exists(response1.data.path)
+      expect(existsUploadFile).toBe(true)
+
+      // mock multipart/form-data upload file
+      const formData2 = new FormData()
+      const file2 = new Blob(['OK'], { type: 'text/plain' })
+      formData2.append('file', file2, 'file.txt')
+      formData2.append('b', 2)
+
+      const responseClean = await axios({
+        method: 'post',
+        url: `https://localhost:${port}/dataClean?a=1`,
+        data: formData2,
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
+        httpsAgent: new https.Agent({ rejectUnauthorized: false })
+      })
+
+      expect(responseClean.data.name).toEqual('file.txt')
+      expect(responseClean.data.content).toEqual('OK')
+      expect(responseClean.data.params).toEqual({ a: '1', b: '2' })
+      expect(responseClean.data.path).toBeDefined()
+
+      const existsUploadFileClean = await fse.exists(responseClean.data.path)
+      expect(existsUploadFileClean).toBe(false)
 
       await app.close()
     } catch (e) {
