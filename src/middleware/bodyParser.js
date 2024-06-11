@@ -8,11 +8,18 @@ const upload = multer({ dest: 'tmp/uploads/' })
 
 export default parameters => {
   parameters = parameters || []
+
+  const uploadParameters = []
+  for (const i in parameters) {
+    if (parameters[i].type === 'file') {
+      uploadParameters.push({ name: i })
+    }
+  }
   return [
     bodyParser.urlencoded({ extended: false }),
     bodyParser.json(),
     bodyParser.text(),
-    upload.fields(parameters),
+    upload.fields(uploadParameters),
     (req, res, next) => {
       const files = {}
       for (const name in req.files) {

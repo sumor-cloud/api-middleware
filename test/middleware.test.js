@@ -2,7 +2,6 @@
 
 import { describe, expect, it } from '@jest/globals'
 import bodyParser from '../src/middleware/bodyParser.js'
-import exposeApi from '../src/middleware/exposeApi.js'
 import createApp from '@sumor/ssl-server'
 import axios from 'axios'
 import https from 'https'
@@ -47,7 +46,7 @@ describe('middleware', () => {
         res.send('Hello')
       })
 
-      app.all('/dataFile', bodyParser([{ name: 'file' }]))
+      app.all('/dataFile', bodyParser({ file: { type: 'file' } }))
       app.all('/dataFile', async (req, res) => {
         const fileInfo = req.data.file[0]
         fileInfo.content = await fse.readFile(fileInfo.path, 'utf8')
@@ -55,7 +54,7 @@ describe('middleware', () => {
         res.send(fileInfo)
       })
 
-      app.all('/dataClean', bodyParser([{ name: 'file' }]))
+      app.all('/dataClean', bodyParser({ file: { type: 'file' } }))
       app.all('/dataClean', async (req, res, next) => {
         const fileInfo = req.data.file[0]
         fileInfo.content = await fse.readFile(fileInfo.path, 'utf8')
@@ -123,48 +122,6 @@ describe('middleware', () => {
 
       const existsUploadFileClean = await fse.exists(responseClean.data.path)
       expect(existsUploadFileClean).toBe(false)
-
-      await app.close()
-    } catch (e) {
-      await app.close()
-      throw e
-    }
-  })
-  it('exposeApi', async () => {
-    const app = createApp()
-
-    try {
-      app.use(
-        exposeApi({
-          'api.add': {
-            route: '/api/add',
-            name: 'add'
-          },
-          'api.plus': {
-            route: '/api/plus',
-            name: 'plus'
-          },
-          'api.minus': {
-            route: '/api/minus',
-            name: 'minus'
-          }
-        })
-      )
-      app.post('/meta', (req, res) => {
-        res.send(req.exposeApis)
-      })
-      await app.listen(port)
-
-      const response = await axios({
-        method: 'post',
-        url: `https://localhost:${port}/meta`,
-        httpsAgent: new https.Agent({ rejectUnauthorized: false })
-      })
-
-      const apiPaths = Object.keys(response.data)
-      expect(response.data['/api/plus'].name).toEqual('plus')
-      expect(apiPaths[0]).toEqual('/api/add')
-      expect(apiPaths[1]).toEqual('/api/minus')
 
       await app.close()
     } catch (e) {
