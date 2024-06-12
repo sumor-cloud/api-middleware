@@ -7,6 +7,7 @@ import axios from 'axios'
 import https from 'https'
 import fse from 'fs-extra'
 import fileClearUp from '../src/middleware/fileClearUp.js'
+import clientEnv from '../src/middleware/clientEnv.js'
 
 const port = 40200
 describe('middleware', () => {
@@ -46,7 +47,14 @@ describe('middleware', () => {
         res.send('Hello')
       })
 
-      app.all('/dataFile', bodyParser({ file: { type: 'file' } }))
+      app.all(
+        '/dataFile',
+        bodyParser({
+          file: { type: 'file' },
+          a: { type: 'string' },
+          b: { type: 'string' }
+        })
+      )
       app.all('/dataFile', async (req, res) => {
         const fileInfo = req.data.file[0]
         fileInfo.content = await fse.readFile(fileInfo.path, 'utf8')
@@ -122,6 +130,51 @@ describe('middleware', () => {
 
       const existsUploadFileClean = await fse.exists(responseClean.data.path)
       expect(existsUploadFileClean).toBe(false)
+
+      await app.close()
+    } catch (e) {
+      await app.close()
+      throw e
+    }
+  })
+  it('clientEnv', async () => {
+    const app = createApp()
+
+    try {
+      app.all('/data', clientEnv)
+      app.all('/data', (req, res) => {
+        res.send(req.client)
+      })
+      await app.listen(port)
+
+      const response = await axios({
+        method: 'get',
+        url: `https://localhost:${port}/data`,
+        httpsAgent: new https.Agent({ rejectUnauthorized: false })
+      })
+      expect(response.data).toEqual({
+        id: 1,
+        ip: '0.0.0.0',
+        language: 'en',
+        timezone: 'Asia/Shanghai'
+      })
+
+      const response2 = await axios({
+        method: 'get',
+        url: `https://localhost:${port}/data`,
+        headers: {
+          'accept-language': 'zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6',
+          'sumor-timezone': 'Asia/Tokyo',
+          'x-forwarded-for': '121.141.21.10'
+        },
+        httpsAgent: new https.Agent({ rejectUnauthorized: false })
+      })
+      expect(response2.data).toEqual({
+        id: 2,
+        ip: '121.141.21.10',
+        language: 'zh-CN',
+        timezone: 'Asia/Tokyo'
+      })
 
       await app.close()
     } catch (e) {
