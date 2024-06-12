@@ -7,10 +7,8 @@ describe('check', () => {
         text: ' demo '
       },
       {
-        parameters: {
-          text: {
-            type: 'string'
-          }
+        text: {
+          type: 'string'
         }
       }
     )
@@ -18,11 +16,9 @@ describe('check', () => {
   })
   it('error', () => {
     const definition = {
-      parameters: {
-        text: {
-          type: 'string',
-          length: 4
-        }
+      text: {
+        type: 'string',
+        length: 4
       }
     }
     let error

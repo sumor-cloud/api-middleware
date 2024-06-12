@@ -1,13 +1,13 @@
 import { validate, format } from '@sumor/validator'
 import APIError from './i18n/APIError.js'
 
-export default (data, apiInfo) => {
+export default (data, apiParameters) => {
   let errors = []
-  for (const key in apiInfo.parameters) {
-    data[key] = format(apiInfo.parameters[key], data[key])
+  for (const key in apiParameters) {
+    data[key] = format(apiParameters[key], data[key])
     const fieldErrors = validate(
       {
-        ...apiInfo.parameters[key],
+        ...apiParameters[key],
         error: true
       },
       data[key]
