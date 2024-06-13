@@ -15,8 +15,14 @@ describe('error', () => {
 
     try {
       app.use(
+        errorCatcher(async (req, res, next) => {
+          req.customErrorMessage = 'test error'
+          next()
+        })
+      )
+      app.use(
         errorCatcher(async (req, res) => {
-          throw new Error('test error')
+          throw new Error(req.customErrorMessage)
         })
       )
 

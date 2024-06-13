@@ -4,8 +4,8 @@ import fse from 'fs-extra'
 import load from '../src/load.js'
 
 describe('Load', () => {
-  const demoPath = `${process.cwd()}/test/demo/api`
-  const testPath = `${process.cwd()}/tmp/demo/api`
+  const demoPath = `${process.cwd()}/test/demo`
+  const testPath = `${process.cwd()}/tmp/demo`
   beforeAll(async () => {
     await fse.ensureDir(testPath)
     await fse.copy(demoPath, testPath)
