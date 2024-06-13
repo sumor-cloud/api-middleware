@@ -1,6 +1,6 @@
 import fse from 'fs-extra'
 
-export default async (req, res, next) => {
+export default async req => {
   if (req.files) {
     const uploadPath = `${process.cwd()}/tmp/uploads`
     for (const i in req.files) {
@@ -10,5 +10,4 @@ export default async (req, res, next) => {
       }
     }
   }
-  next()
 }

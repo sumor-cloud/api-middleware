@@ -6,7 +6,7 @@ import createApp from '@sumor/ssl-server'
 import axios from 'axios'
 import https from 'https'
 import fse from 'fs-extra'
-import fileClearUp from '../src/middleware/fileClearUp.js'
+import fileClearUp from '../src/fileClearUp.js'
 import clientEnv from '../src/middleware/clientEnv.js'
 
 const port = 40200
@@ -42,7 +42,10 @@ describe('middleware', () => {
     const app = createApp()
 
     try {
-      app.get('/hello', fileClearUp)
+      app.get('/hello', async (req, res, next) => {
+        await fileClearUp(req)
+        next()
+      })
       app.get('/hello', (req, res) => {
         res.send('Hello')
       })
@@ -70,7 +73,10 @@ describe('middleware', () => {
         req.sumorResponse = fileInfo
         next()
       })
-      app.all('/dataClean', fileClearUp)
+      app.all('/dataClean', async (req, res, next) => {
+        await fileClearUp(req)
+        next()
+      })
       app.all('/dataClean', async (req, res) => {
         res.send(req.sumorResponse)
       })
