@@ -40,7 +40,9 @@ export default async (path, prefix) => {
     const programResult = await loadProgram(filePath)
     if (programResult.error) {
       apiMeta[path].error = 'syntaxError'
-      logger.code('API_LOAD_FAILED_SYNTAX_ERROR', { path: apiMeta[path].route })
+      logger.code('API_LOAD_FAILED_SYNTAX_ERROR', {
+        path: apiMeta[path].route
+      })
       logger.error(programResult.error)
     } else {
       program = programResult.program
@@ -50,13 +52,17 @@ export default async (path, prefix) => {
       if (program.default) {
         program = program.default
         if (hasFile) {
-          logger.code('API_LOAD_SUCCESS_WITH_FILE', { path: apiMeta[path].route })
+          logger.code('API_LOAD_SUCCESS_WITH_FILE', {
+            path: apiMeta[path].route
+          })
         } else {
           logger.code('API_LOAD_SUCCESS', { path: apiMeta[path].route })
         }
       } else {
         apiMeta[path].error = 'missingDefaultExport'
-        logger.code('API_LOAD_FAILED_MISSING_DEFAULT', { path: apiMeta[path].route })
+        logger.code('API_LOAD_FAILED_MISSING_DEFAULT', {
+          path: apiMeta[path].route
+        })
       }
       apiMeta[path].program = program
     }

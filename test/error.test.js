@@ -97,7 +97,10 @@ describe('error', () => {
       } catch (e) {
         error1 = e
       }
-      expect(error1.response.data).toEqual({ code: 'UNKNOWN_ERROR', message: 'test error' })
+      expect(error1.response.data).toEqual({
+        code: 'UNKNOWN_ERROR',
+        message: 'test error'
+      })
 
       let error2
       try {
