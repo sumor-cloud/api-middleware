@@ -9,10 +9,16 @@ describe('check', () => {
       {
         text: {
           type: 'string'
+        },
+
+        // test2 not passed, check if error
+        text2: {
+          type: 'string'
         }
       }
     )
     expect(data1.text).toEqual('demo')
+    expect(data1.text2).toBeNull()
   })
   it('error', () => {
     const definition = {
