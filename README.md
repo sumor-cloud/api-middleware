@@ -87,6 +87,40 @@ app.listen(3000, () => {
 node index.js
 ```
 
+### Parameter Rule
+You can reference below example to apply rules to parameters
+
+```json
+{
+  "name": "plus",
+  "parameters": {
+    "a": {
+      "name": "parameter a",
+      "type": "number",
+      "length": 3,
+      "rule": [
+        {
+          "code": "GREATER_THAN_0",
+          "expression": "^[1-9][0-9]*$",
+          "message": "must be greater than 0"
+        }
+      ],
+      "i18n": {
+        "zh": {
+          "GREATER_THAN_0": "必须大于0"
+        }
+      }
+    },
+    "b": {
+      "name": "parameter b",
+      "type": "number"
+    }
+  }
+}
+```
+
+For more usage, please reference [Validator](https://sumor.cloud/validator/)
+
 ### context
 
 ##### data
