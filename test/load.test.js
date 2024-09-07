@@ -27,6 +27,8 @@ describe('Load', () => {
 
     expect(meta.plus2.name).toEqual('plus2')
 
+    expect(meta.plus3.name).toEqual('plus3')
+
     expect(meta.noDefault.error).toEqual('missingDefaultExport')
     expect(meta.syntaxTest.error).toEqual('syntaxError')
 

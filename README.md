@@ -48,7 +48,7 @@ export default async (context, req, res) => {
 }
 ```
 
-2. [Optional] Add a file named `plus.json` in your project folder `api`
+2. [Optional] Add a config file named `plus.json` in your project folder `api`
 
 ```json
 {
@@ -87,7 +87,56 @@ app.listen(3000, () => {
 node index.js
 ```
 
+### More Config File Types
+
+##### yaml
+
+You can use yaml file to define config file, replace `plus.json` with `plus.yml`
+
+```yaml
+name: plus
+parameters:
+  a:
+    name: parameter a
+    type: number
+    length: 3
+  b:
+    name: parameter b
+    type: number
+```
+
+##### config.js
+
+For support js function in config file, you can use `config.js` file, replace `plus.json` with `plus.config.js`
+
+```javascript
+export default {
+  name: 'plus',
+  parameters: {
+    a: {
+      name: 'parameter a',
+      type: 'number',
+      length: 3
+    },
+    b: {
+      name: 'parameter b',
+      type: 'number',
+      rule: [
+        {
+          code: 'TOO_BIG',
+          message: 'b should be less than 100',
+          function: function (value) {
+            return value < 100
+          }
+        }
+      ]
+    }
+  }
+}
+```
+
 ### Parameter Rule
+
 You can reference below example to apply rules to parameters
 
 ```json
