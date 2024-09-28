@@ -6,10 +6,12 @@ A [Sumor Cloud](https://sumor.cloud) Tool.
 API Middleware is a middleware for Node.JS.
 It can easily expose function to api, and validate parameters
 
-[![CI](https://github.com/sumor-cloud/api-middleware/actions/workflows/ci.yml/badge.svg)](https://github.com/sumor-cloud/api-middleware/actions/workflows/ci.yml)
-[![Test](https://github.com/sumor-cloud/api-middleware/actions/workflows/ut.yml/badge.svg)](https://github.com/sumor-cloud/api-middleware/actions/workflows/ut.yml)
-[![Coverage](https://github.com/sumor-cloud/api-middleware/actions/workflows/coverage.yml/badge.svg)](https://github.com/sumor-cloud/api-middleware/actions/workflows/coverage.yml)
-[![Audit](https://github.com/sumor-cloud/api-middleware/actions/workflows/audit.yml/badge.svg)](https://github.com/sumor-cloud/api-middleware/actions/workflows/audit.yml)
+[![NPM Version](https://img.shields.io/npm/v/@sumor/api-middleware?logo=npm&label=NPM)](https://www.npmjs.com/package/@sumor/api-middleware)
+[![NPM Downloads](https://img.shields.io/npm/dw/@sumor/api-middleware?logo=npm&label=Downloads)](https://www.npmjs.com/package/@sumor/api-middleware)
+[![GitHub CI](https://img.shields.io/github/actions/workflow/status/sumor-cloud/api-middleware/ci.yml?logo=github&label=CI)](https://github.com/sumor-cloud/api-middleware/actions/workflows/ci.yml)
+[![GitHub Test](https://img.shields.io/github/actions/workflow/status/sumor-cloud/api-middleware/ut.yml?logo=github&label=Test)](https://github.com/sumor-cloud/api-middleware/actions/workflows/ut.yml)
+[![GitHub Coverage](https://img.shields.io/github/actions/workflow/status/sumor-cloud/api-middleware/coverage.yml?logo=github&label=Coverage)](https://github.com/sumor-cloud/api-middleware/actions/workflows/coverage.yml)
+[![GitHub Audit](https://img.shields.io/github/actions/workflow/status/sumor-cloud/api-middleware/audit.yml?logo=github&label=Audit)](https://github.com/sumor-cloud/api-middleware/actions/workflows/audit.yml)
 
 ## Installation
 
