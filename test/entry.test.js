@@ -10,7 +10,7 @@ const port = 40500
 describe('entry', () => {
   it('host', async () => {
     const app = createApp()
-    apiMiddleware(app, `${process.cwd()}/test/demo`)
+    await apiMiddleware(app, `${process.cwd()}/test/demo`)
     await app.listen(port)
 
     try {
