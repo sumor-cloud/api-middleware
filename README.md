@@ -74,7 +74,8 @@ import express from 'express'
 import apiMiddleware from '@sumor/api-middleware'
 
 const app = express()
-apiMiddleware(app, process.cwd() + '/api')
+
+await apiMiddleware(app, process.cwd() + '/api')
 
 app.listen(3000, () => {
   console.log('Server is running on http://localhost:3000')
@@ -85,6 +86,39 @@ app.listen(3000, () => {
 
 ```bash
 node index.js
+```
+
+5. Test the api
+
+```bash
+curl -X POST http://localhost:3000/plus -H "Content-Type: application/json" -d '{"a": 1, "b": 2}'
+```
+
+or use browser to open `http://localhost:3000/plus?a=1&b=2`
+
+### Options for apiMiddleware
+
+```javascript
+import express from 'express'
+import apiMiddleware from '@sumor/api-middleware'
+
+const app = express()
+
+await apiMiddleware(app, process.cwd() + '/api', {
+  prefix: '/api',
+  prepare: async context => {
+    // do something before api
+  },
+  finalize: async (context, result) => {
+    // do something after api
+  },
+  exception: async (context, error) => {
+    // handle error
+  }
+})
+app.listen(3000, () => {
+  console.log('Server is running on http://localhost:3000')
+})
 ```
 
 ### More Config File Types
