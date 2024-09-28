@@ -129,6 +129,8 @@ app.listen(3000, () => {
 
 You can use yaml file to define config file, replace `plus.json` with `plus.yml`
 
+type only support `number`, `string`, `boolean`, `array`, `object`
+
 ```yaml
 name: plus
 parameters:
