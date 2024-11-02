@@ -6,7 +6,6 @@ import axios from 'axios'
 import errorCatcher from '../src/error/errorCatcher.js'
 import errorMiddleware from '../src/error/errorMiddleware.js'
 import APIError from '../src/i18n/APIError.js'
-import https from 'https'
 
 const port = 40300
 describe('error', () => {
@@ -37,12 +36,11 @@ describe('error', () => {
         res.send(err.message)
       })
 
-      await app.listen(port)
+      await app.listen(null, port)
 
       const response = await axios({
         method: 'get',
-        url: `https://localhost:${port}/error`,
-        httpsAgent: new https.Agent({ rejectUnauthorized: false })
+        url: `http://localhost:${port}/error`
       })
       expect(response.data).toEqual('test error')
 
@@ -82,17 +80,16 @@ describe('error', () => {
 
       app.use(errorMiddleware)
 
-      await app.listen(port)
+      await app.listen(null, port)
 
       let error1
       try {
         await axios({
           method: 'get',
-          url: `https://localhost:${port}/error`,
+          url: `http://localhost:${port}/error`,
           headers: {
             Accept: 'application/json'
-          },
-          httpsAgent: new https.Agent({ rejectUnauthorized: false })
+          }
         })
       } catch (e) {
         error1 = e
@@ -106,11 +103,10 @@ describe('error', () => {
       try {
         await axios({
           method: 'get',
-          url: `https://localhost:${port}/error2`,
+          url: `http://localhost:${port}/error2`,
           headers: {
             Accept: 'text/html'
-          },
-          httpsAgent: new https.Agent({ rejectUnauthorized: false })
+          }
         })
       } catch (e) {
         error2 = e
@@ -123,11 +119,10 @@ describe('error', () => {
       try {
         await axios({
           method: 'get',
-          url: `https://localhost:${port}/error2`,
+          url: `http://localhost:${port}/error2`,
           headers: {
             Accept: 'application/json'
-          },
-          httpsAgent: new https.Agent({ rejectUnauthorized: false })
+          }
         })
       } catch (e) {
         error3 = e
@@ -148,12 +143,11 @@ describe('error', () => {
       try {
         await axios({
           method: 'get',
-          url: `https://localhost:${port}/error2`,
+          url: `http://localhost:${port}/error2`,
           headers: {
             Accept: 'application/json',
             'Accept-Language': 'zh-CN'
-          },
-          httpsAgent: new https.Agent({ rejectUnauthorized: false })
+          }
         })
       } catch (e) {
         error4 = e

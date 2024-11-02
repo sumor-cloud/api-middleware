@@ -4,7 +4,6 @@ import { describe, expect, it } from '@jest/globals'
 import bodyParser from '../src/middleware/bodyParser.js'
 import createApp from '@sumor/ssl-server'
 import axios from 'axios'
-import https from 'https'
 import fse from 'fs-extra'
 import fileClearUp from '../src/fileClearUp.js'
 import clientEnv from '../src/middleware/clientEnv.js'
@@ -19,15 +18,14 @@ describe('middleware', () => {
       app.all('/data', (req, res) => {
         res.send(req.data)
       })
-      await app.listen(port)
+      await app.listen(null, port)
 
       const response = await axios({
         method: 'post',
-        url: `https://localhost:${port}/data?a=1`,
+        url: `http://localhost:${port}/data?a=1`,
         data: {
           b: 2
-        },
-        httpsAgent: new https.Agent({ rejectUnauthorized: false })
+        }
       })
       expect(response.data).toEqual({ a: '1', b: 2 })
 
@@ -80,12 +78,11 @@ describe('middleware', () => {
       app.all('/dataClean', async (req, res) => {
         res.send(req.sumorResponse)
       })
-      await app.listen(port)
+      await app.listen(null, port)
 
       const response = await axios({
         method: 'get',
-        url: `https://localhost:${port}/hello?a=1`,
-        httpsAgent: new https.Agent({ rejectUnauthorized: false })
+        url: `http://localhost:${port}/hello?a=1`
       })
       expect(response.data).toEqual('Hello')
 
@@ -97,12 +94,11 @@ describe('middleware', () => {
 
       const response1 = await axios({
         method: 'post',
-        url: `https://localhost:${port}/dataFile?a=1`,
+        url: `http://localhost:${port}/dataFile?a=1`,
         data: formData,
         headers: {
           'Content-Type': 'multipart/form-data'
-        },
-        httpsAgent: new https.Agent({ rejectUnauthorized: false })
+        }
       })
 
       expect(response1.data.name).toEqual('file.txt')
@@ -121,12 +117,11 @@ describe('middleware', () => {
 
       const responseClean = await axios({
         method: 'post',
-        url: `https://localhost:${port}/dataClean?a=1`,
+        url: `http://localhost:${port}/dataClean?a=1`,
         data: formData2,
         headers: {
           'Content-Type': 'multipart/form-data'
-        },
-        httpsAgent: new https.Agent({ rejectUnauthorized: false })
+        }
       })
 
       expect(responseClean.data.name).toEqual('file.txt')
@@ -151,12 +146,11 @@ describe('middleware', () => {
       app.all('/data', (req, res) => {
         res.send(req.client)
       })
-      await app.listen(port)
+      await app.listen(null, port)
 
       const response = await axios({
         method: 'get',
-        url: `https://localhost:${port}/data`,
-        httpsAgent: new https.Agent({ rejectUnauthorized: false })
+        url: `http://localhost:${port}/data`
       })
       expect(response.data).toEqual({
         id: 1,
@@ -167,13 +161,12 @@ describe('middleware', () => {
 
       const response2 = await axios({
         method: 'get',
-        url: `https://localhost:${port}/data`,
+        url: `http://localhost:${port}/data`,
         headers: {
           'accept-language': 'zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6',
           'sumor-timezone': 'Asia/Tokyo',
           'x-forwarded-for': '121.141.21.10'
-        },
-        httpsAgent: new https.Agent({ rejectUnauthorized: false })
+        }
       })
       expect(response2.data).toEqual({
         id: 2,

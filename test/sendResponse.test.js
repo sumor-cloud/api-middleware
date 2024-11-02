@@ -4,7 +4,6 @@ import { describe, expect, it } from '@jest/globals'
 import createApp from '@sumor/ssl-server'
 import sendResponse from '../src/sendResponse.js'
 import axios from 'axios'
-import https from 'https'
 
 const port = 40400
 describe('send response', () => {
@@ -33,13 +32,12 @@ describe('send response', () => {
       res.redirect('/json1')
       sendResponse(res, { a: 2 })
     })
-    await app.listen(port)
+    await app.listen(null, port)
 
     try {
       const response1 = await axios({
         method: 'get',
-        url: `https://localhost:${port}/json1`,
-        httpsAgent: new https.Agent({ rejectUnauthorized: false })
+        url: `http://localhost:${port}/json1`
       })
       expect(response1.data).toEqual({
         code: 'OK',
@@ -48,8 +46,7 @@ describe('send response', () => {
 
       const response2 = await axios({
         method: 'get',
-        url: `https://localhost:${port}/json2`,
-        httpsAgent: new https.Agent({ rejectUnauthorized: false })
+        url: `http://localhost:${port}/json2`
       })
       expect(response2.data).toEqual({
         code: 'OK',
@@ -58,8 +55,7 @@ describe('send response', () => {
 
       const response3 = await axios({
         method: 'get',
-        url: `https://localhost:${port}/json3`,
-        httpsAgent: new https.Agent({ rejectUnauthorized: false })
+        url: `http://localhost:${port}/json3`
       })
       expect(response3.data).toEqual({
         code: 'OK',
@@ -68,22 +64,19 @@ describe('send response', () => {
 
       const response4 = await axios({
         method: 'get',
-        url: `https://localhost:${port}/html`,
-        httpsAgent: new https.Agent({ rejectUnauthorized: false })
+        url: `http://localhost:${port}/html`
       })
       expect(response4.data).toEqual('<html></html>')
 
       const response5 = await axios({
         method: 'get',
-        url: `https://localhost:${port}/emptyHtml`,
-        httpsAgent: new https.Agent({ rejectUnauthorized: false })
+        url: `http://localhost:${port}/emptyHtml`
       })
       expect(response5.data).toEqual('')
 
       const response6 = await axios({
         method: 'get',
-        url: `https://localhost:${port}/redirect`,
-        httpsAgent: new https.Agent({ rejectUnauthorized: false })
+        url: `http://localhost:${port}/redirect`
       })
       expect(response6.data).toEqual({
         code: 'OK',

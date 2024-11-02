@@ -3,7 +3,6 @@
 import { describe, expect, it } from '@jest/globals'
 import createApp from '@sumor/ssl-server'
 import axios from 'axios'
-import https from 'https'
 import apiMiddleware from '../src/index.js'
 
 const port = 40500
@@ -11,13 +10,12 @@ describe('entry', () => {
   it('host', async () => {
     const app = createApp()
     await apiMiddleware(app, `${process.cwd()}/test/demo`)
-    await app.listen(port)
+    await app.listen(null, port)
 
     try {
       const response1 = await axios({
         method: 'get',
-        url: `https://localhost:${port}/plus?a=1&b=2`,
-        httpsAgent: new https.Agent({ rejectUnauthorized: false })
+        url: `http://localhost:${port}/plus?a=1&b=2`
       })
       expect(response1.data.data).toBe(3)
 
@@ -25,8 +23,7 @@ describe('entry', () => {
       try {
         await axios({
           method: 'get',
-          url: `https://localhost:${port}/plus?a=1111&b=2`,
-          httpsAgent: new https.Agent({ rejectUnauthorized: false })
+          url: `http://localhost:${port}/plus?a=1111&b=2`
         })
       } catch (e) {
         error1 = e
