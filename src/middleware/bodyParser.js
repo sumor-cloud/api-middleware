@@ -38,10 +38,12 @@ export default parameters => {
             path: `${uploadPath}/${file.filename}`
           }
         })
-        if (parameters[name].multiple !== true) {
-          files[name] = reqFiles[0]
-        } else {
-          files[name] = reqFiles
+        if (reqFiles.length > 0) {
+          if (parameters[name].multiple !== true) {
+            files[name] = reqFiles[0]
+          } else {
+            files[name] = reqFiles
+          }
         }
       }
       req.data = { ...req.params, ...req.query, ...req.body, ...files }
