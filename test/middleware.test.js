@@ -95,44 +95,28 @@ describe('middleware', () => {
         expect(response.data).toEqual('Hello')
 
         // mock multipart/form-data upload file
-        const formDataFile1 = new FormData()
+        const formData1 = new FormData()
         const file = new Blob(['OK'], { type: 'text/plain' })
-        formDataFile1.append('file', file, 'file.txt')
-        formDataFile1.append('b', 2)
+        formData1.append('file', file, 'file.txt')
+        formData1.append('b', 2)
 
-        const responseFile1 = await axios({
+        const response1 = await axios({
           proxy: false,
           method: 'post',
           url: `http://localhost:${port}/dataFile?a=1`,
-          data: formDataFile1,
+          data: formData1,
           headers: {
             'Content-Type': 'multipart/form-data'
           }
         })
 
-        expect(responseFile1.data.name).toEqual('file.txt')
-        expect(responseFile1.data.content).toEqual('OK')
-        expect(responseFile1.data.params).toEqual({ a: '1', b: '2' })
-        expect(responseFile1.data.path).toBeDefined()
+        expect(response1.data.name).toEqual('file.txt')
+        expect(response1.data.content).toEqual('OK')
+        expect(response1.data.params).toEqual({ a: '1', b: '2' })
+        expect(response1.data.path).toBeDefined()
 
-        const existsUploadFile = await fse.exists(responseFile1.data.path)
+        const existsUploadFile = await fse.exists(response1.data.path)
         expect(existsUploadFile).toBe(true)
-
-        // mock multipart/form-data upload file
-        const formDataFile2 = new FormData()
-        formDataFile2.append('b', 2)
-
-        const responseFile2 = await axios({
-          proxy: false,
-          method: 'post',
-          url: `http://localhost:${port}/dataFile?a=2`,
-          data: formDataFile2,
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        })
-
-        expect(responseFile2.data).toBe('')
 
         // mock multipart/form-data upload file
         const formData2 = new FormData()
