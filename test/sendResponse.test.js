@@ -36,6 +36,7 @@ describe('send response', () => {
 
     try {
       const response1 = await axios({
+        proxy: false,
         method: 'get',
         url: `http://localhost:${port}/json1`
       })
@@ -45,6 +46,7 @@ describe('send response', () => {
       })
 
       const response2 = await axios({
+        proxy: false,
         method: 'get',
         url: `http://localhost:${port}/json2`
       })
@@ -54,6 +56,7 @@ describe('send response', () => {
       })
 
       const response3 = await axios({
+        proxy: false,
         method: 'get',
         url: `http://localhost:${port}/json3`
       })
@@ -63,18 +66,21 @@ describe('send response', () => {
       })
 
       const response4 = await axios({
+        proxy: false,
         method: 'get',
         url: `http://localhost:${port}/html`
       })
       expect(response4.data).toEqual('<html></html>')
 
       const response5 = await axios({
+        proxy: false,
         method: 'get',
         url: `http://localhost:${port}/emptyHtml`
       })
       expect(response5.data).toEqual('')
 
       const response6 = await axios({
+        proxy: false,
         method: 'get',
         url: `http://localhost:${port}/redirect`
       })

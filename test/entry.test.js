@@ -14,6 +14,7 @@ describe('entry', () => {
 
     try {
       const response1 = await axios({
+        proxy: false,
         method: 'get',
         url: `http://localhost:${port}/plus?a=1&b=2`
       })
@@ -22,6 +23,7 @@ describe('entry', () => {
       let error1
       try {
         await axios({
+          proxy: false,
           method: 'get',
           url: `http://localhost:${port}/plus?a=1111&b=2`
         })

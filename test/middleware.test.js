@@ -22,6 +22,7 @@ describe('middleware', () => {
       await app.listen(null, port)
 
       const response = await axios({
+        proxy: false,
         method: 'post',
         url: `http://localhost:${port}/data?a=1`,
         data: {
@@ -85,6 +86,7 @@ describe('middleware', () => {
         await app.listen(null, port)
 
         const response = await axios({
+          proxy: false,
           method: 'get',
           url: `http://localhost:${port}/hello?a=1`
         })
@@ -97,6 +99,7 @@ describe('middleware', () => {
         formData.append('b', 2)
 
         const response1 = await axios({
+          proxy: false,
           method: 'post',
           url: `http://localhost:${port}/dataFile?a=1`,
           data: formData,
@@ -120,6 +123,7 @@ describe('middleware', () => {
         formData2.append('b', 2)
 
         const responseClean = await axios({
+          proxy: false,
           method: 'post',
           url: `http://localhost:${port}/dataClean?a=1`,
           data: formData2,
@@ -156,6 +160,7 @@ describe('middleware', () => {
       await app.listen(null, port)
 
       const response = await axios({
+        proxy: false,
         method: 'get',
         url: `http://localhost:${port}/data`
       })
@@ -167,6 +172,7 @@ describe('middleware', () => {
       })
 
       const response2 = await axios({
+        proxy: false,
         method: 'get',
         url: `http://localhost:${port}/data`,
         headers: {

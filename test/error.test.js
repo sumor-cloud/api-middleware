@@ -40,6 +40,7 @@ describe('error', () => {
       await app.listen(null, port)
 
       const response = await axios({
+        proxy: false,
         method: 'get',
         url: `http://localhost:${port}/error`
       })
@@ -87,6 +88,7 @@ describe('error', () => {
       let error1
       try {
         await axios({
+          proxy: false,
           method: 'get',
           url: `http://localhost:${port}/error`,
           headers: {
@@ -104,6 +106,7 @@ describe('error', () => {
       let error2
       try {
         await axios({
+          proxy: false,
           method: 'get',
           url: `http://localhost:${port}/error2`,
           headers: {
@@ -120,6 +123,7 @@ describe('error', () => {
       let error3
       try {
         await axios({
+          proxy: false,
           method: 'get',
           url: `http://localhost:${port}/error2`,
           headers: {
@@ -144,6 +148,7 @@ describe('error', () => {
       let error4
       try {
         await axios({
+          proxy: false,
           method: 'get',
           url: `http://localhost:${port}/error2`,
           headers: {
