@@ -7,7 +7,7 @@ await fse.ensureDir(uploadPath)
 const upload = multer({ dest: 'tmp/uploads/' })
 
 export default parameters => {
-  parameters = parameters || []
+  parameters = parameters || {}
 
   const uploadParameters = []
   for (const name in parameters) {
@@ -25,7 +25,7 @@ export default parameters => {
       for (const name in parameters) {
         const parameter = parameters[name]
         if (parameter.type === 'file') {
-          files[name] = parameter.multiple === true ? [] : null
+          files[name] = parameter.multiple !== true ? null : []
         }
       }
       for (const name in req.files) {
