@@ -1,7 +1,7 @@
 {
   "name": "@sumor/api-middleware",
   "description": "API Middleware is a middleware for Node.JS. It can easily expose function to api, and validate parameters",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "license": "MIT",
   "repository": "sumor-cloud/api-middleware",
   "author": "Sumor Cloud Ltd",
