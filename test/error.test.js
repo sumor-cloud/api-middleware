@@ -7,7 +7,7 @@ import errorCatcher from '../src/error/errorCatcher.js'
 import errorMiddleware from '../src/error/errorMiddleware.js'
 import APIError from '../src/i18n/APIError.js'
 
-const port = 40300
+let port = 40300
 describe('error', () => {
   it('error catcher', async () => {
     const app = createApp()
@@ -36,6 +36,7 @@ describe('error', () => {
         res.send(err.message)
       })
 
+      port++
       await app.listen(null, port)
 
       const response = await axios({
@@ -80,6 +81,7 @@ describe('error', () => {
 
       app.use(errorMiddleware)
 
+      port++
       await app.listen(null, port)
 
       let error1

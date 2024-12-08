@@ -31,7 +31,17 @@ export default async (app, path, options) => {
 
     middlewares.push(async function (req, res, next) {
       req.exposeApis = exposeApis
-      next()
+
+      // if path is prefix/metadata, return metadata
+      if (req.path === `${options.prefix}/metadata`) {
+        res.set('Content-Type', 'application/json;charset=utf-8')
+        res.json({
+          code: 'OK',
+          data: exposeApis
+        })
+      } else {
+        next()
+      }
     })
 
     middlewares.push(async function (req, res, next) {
