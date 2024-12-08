@@ -22,6 +22,12 @@ export default parameters => {
     upload.fields(uploadParameters),
     (req, res, next) => {
       const files = {}
+      for (const name in parameters) {
+        const parameter = parameters[name]
+        if (parameter.type === 'file') {
+          files[name] = parameter.multiple === true ? [] : null
+        }
+      }
       for (const name in req.files) {
         const reqFiles = req.files[name].map(file => {
           return {
